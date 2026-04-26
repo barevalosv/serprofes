@@ -67,22 +67,22 @@ body{
     padding: 12px 30px;
     border: none;
     border-radius: 30px;
-    background-color: #ecf0f1;
-    color: #333;
+    background-color: #1bc524;
+    color: white;
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;  /*Transicion suave de color*/
 }
 
 .tarjeta .btn-destacado {
-    background-color: #3498db;
+    background-color: #1bc524;
     color: white;
 
 }
 .tarjeta button:hover{
-    background-color: #bdc3c7;
+    background-color: oklab(92.51599999999999% -0.06266 0.18749);
 
 }
 .tarjeta .btn-destacado:hover{
-     background-color: #2980b9;
+     background-color: oklab(92.51599999999999% -0.06266 0.18749);
 }
