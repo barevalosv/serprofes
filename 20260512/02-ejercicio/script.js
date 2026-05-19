@@ -28,8 +28,4 @@ for (let i = 0; i< carrito.length; i++){
 document.getElementById('resultado-total').textContent =
 "Total: " + sumaTotal.toFixed(2) + " €";
 
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> d36ad29 (update 20260512)
