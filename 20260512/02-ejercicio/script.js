@@ -29,3 +29,7 @@ document.getElementById('resultado-total').textContent =
 "Total: " + sumaTotal.toFixed(2) + " €";
 
 }
+
+//CÓDIGO DE APOYO VISUAL
+let listaHTML = document.getElementById('lista-producto');
+for(let i = 0; i < carrito.length;i++)
