@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BAV Academy | Formación Profesional</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
+                    colors: {
+                        barca: {
+                            blue: '#004d98',
+                            red: '#a50044',
+                            gold: '#fdb913'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .theme-transition { transition: background-color 0.3s, color 0.3s; }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-[#0a0a0c] text-slate-800 dark:text-slate-100 theme-transition">
+
+    <nav class="sticky top-0 bg-white/80 dark:bg-[#0a0a0c]/80 backdrop-blur-md border-b border-barca-blue/10 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="bg-barca-blue text-white font-extrabold text-lg w-10 h-10 flex items-center justify-center rounded-xl shadow-lg shadow-barca-blue/20">BAV</div>
+                <span class="text-xl font-extrabold tracking-tight text-barca-blue dark:text-white">Academy</span>
+            </div>
+            <button id="theme-toggle" class="p-3 rounded-full bg-slate-100 dark:bg-slate-800 hover:scale-105 transition-all">
+                <span id="theme-toggle-icon">🌙</span>
+            </button>
+        </div>
+    </nav>
+
+    <header class="py-16 px-4 bg-gradient-to-b from-barca-blue/5 to-transparent">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-5xl md:text-6xl font-extrabold mb-6 text-slate-900 dark:text-white tracking-tight">
+                Impulsa tu carrera con <span class="text-barca-red">formación de élite</span>
+            </h1>
+            <p class="text-xl text-slate-600 dark:text-slate-400 mb-10 max-w-2xl mx-auto">
+                Plataformas seleccionadas con certificación 100% gratuita. Aprende de los mejores del mundo.
+            </p>
+            
+            <div class="flex flex-wrap justify-center gap-4 text-sm font-semibold">
+                <div class="bg-white dark:bg-slate-800 px-6 py-3 rounded-full shadow-sm border border-barca-blue/20">🚀 +50,000 Estudiantes</div>
+                <div class="bg-white dark:bg-slate-800 px-6 py-3 rounded-full shadow-sm border border-barca-red/20">🎓 100% Gratuito</div>
+                <div class="bg-white dark:bg-slate-800 px-6 py-3 rounded-full shadow-sm border border-barca-gold/20">🏆 Certificación Oficial</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 pb-24">
+        <div class="flex flex-col md:flex-row gap-4 mb-12">
+            <input type="text" id="searchInput" placeholder="Busca tecnología, curso o plataforma..." class="flex-grow px-6 py-4 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-4 focus:ring-barca-blue/20 outline-none transition-all text-lg shadow-sm">
+            <select id="categoryFilter" class="px-6 py-4 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 outline-none focus:ring-4 focus:ring-barca-blue/20 shadow-sm cursor-pointer">
+                <option value="all">Todas las Categorías</option>
+                <option value="web">Desarrollo Web</option>
+                <option value="data">Data Science & IA</option>
+                <option value="cyber">Ciberseguridad</option>
+            </select>
+        </div>
+
+        <div id="videoGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Courses rendered by JS -->
+        </div>
+    </main>
+
+    <script>
+        const platformsData = [
+            { name: "freeCodeCamp", category: "web", duration: "300h", difficulty: "Principiante", rating: "4.9", certType: "Certificado Gratuito", description: "Desarrollo Web Full Stack", technologies: ["HTML", "CSS", "JS", "React"] },
+            { name: "CS50 Harvard", category: "web", duration: "120h", difficulty: "Avanzado", rating: "5.0", certType: "Certificado Oficial", description: "Ciencias de la Computación", technologies: ["C", "Python", "SQL", "Web"] },
+            { name: "Full Stack Open", category: "web", duration: "150h", difficulty: "Intermedio", rating: "4.8", certType: "Certificado Univ.", description: "Desarrollo Web Moderno", technologies: ["React", "Node.js", "TypeScript"] },
+            { name: "HackerRank", category: "data", duration: "20h", difficulty: "Intermedio", rating: "4.7", certType: "Certificado Skills", description: "Verificación de Habilidades", technologies: ["SQL", "Python", "Problem Solving"] },
+            { name: "Great Learning", category: "data", duration: "40h", difficulty: "Principiante", rating: "4.6", certType: "Certificados gratis", description: "IA y Data Science", technologies: ["Python", "IA", "Data Science"] },
+            { name: "Cisco NetAcad", category: "cyber", duration: "60h", difficulty: "Principiante", rating: "4.8", certType: "Certificado Oficial", description: "Networking y Ciberseguridad", technologies: ["Python", "Linux", "Security"] }
+        ];
+
+        // Theme management
+        const toggleBtn = document.getElementById('theme-toggle');
+        toggleBtn.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            const isDark = document.documentElement.classList.contains('dark');
+            toggleBtn.innerHTML = isDark ? '☀️' : '🌙';
+            localStorage.theme = isDark ? 'dark' : 'light';
+        });
+
+        // Initialize theme
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            toggleBtn.innerHTML = '☀️';
+        }
+
+        // Render function
+        function renderCards(data) {
+            const container = document.getElementById('videoGrid');
+            container.innerHTML = data.map(platform => `
+                <div class="group bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-100 dark:border-slate-800 hover:border-barca-blue/30 transition-all duration-300 flex flex-col justify-between shadow-sm hover:shadow-xl hover:shadow-barca-blue/5">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="bg-barca-blue/10 text-barca-blue dark:text-barca-gold text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-widest">${platform.name}</span>
+                            <span class="text-barca-gold text-xs font-bold">★ ${platform.rating}</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2 text-slate-900 dark:text-white group-hover:text-barca-red transition-colors">${platform.description}</h3>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm mb-4">${platform.certType}</p>
+                        
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            ${platform.technologies.map(t => `<span class="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-[10px] font-bold px-2 py-1 rounded-lg">${t}</span>`).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="pt-6 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                        <div class="flex gap-4 text-[11px] text-slate-400 font-bold uppercase">
+                            <span>⏱ ${platform.duration}</span>
+                            <span>📈 ${platform.difficulty}</span>
+                        </div>
+                        <button class="text-barca-blue dark:text-barca-gold font-bold text-sm hover:underline">Ver Info →</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filters
+        function filterData() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const cat = document.getElementById('categoryFilter').value;
+            const filtered = platformsData.filter(p => 
+                (p.description.toLowerCase().includes(search) || p.technologies.some(t => t.toLowerCase().includes(search))) &&
+                (cat === 'all' || p.category === cat)
+            );
+            renderCards(filtered);
+        }
+
+        document.getElementById('searchInput').addEventListener('input', filterData);
+        document.getElementById('categoryFilter').addEventListener('change', filterData);
+
+        renderCards(platformsData);
+    </script>
+</body>
+</html>
